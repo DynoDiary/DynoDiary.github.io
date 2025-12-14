@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts | Dyno Diary</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-links">
+            <a href="/" class="nav-link ">Home</a>
+            <a href="/posts/" class="nav-link active">Posts</a>
+        </div>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <svg class="theme-icon sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="theme-icon moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+    </nav>
+    <main>
+        
+<div class="list-container">
+    <section class="filter-section">
+        <div class="tags-filter" id="tags-filter">
+            
+            
+            
+            
+            
+            
+                
+                    
+                        
+                        
+                        
+                        
+                    
+                        
+                        
+                        
+                        
+                    
+                
+                
+                    
+                    
+                    
+                    
+                
+            
+            
+            
+            
+            
+            <label class="tag-filter-item">
+                <input type="checkbox" class="tag-checkbox" value="%E5%B0%8F%E8%83%A1" data-type="author">
+                <span class="tag">小胡 <span class="tag-count">(1)</span></span>
+            </label>
+            
+            
+            
+            
+            
+            <label class="tag-filter-item">
+                <input type="checkbox" class="tag-checkbox" value="cube" data-type="tag">
+                <span class="tag">cube <span class="tag-count">(1)</span></span>
+            </label>
+            
+            
+            
+            <label class="tag-filter-item">
+                <input type="checkbox" class="tag-checkbox" value="v3" data-type="tag">
+                <span class="tag">v3 <span class="tag-count">(1)</span></span>
+            </label>
+            
+        </div>
+    </section>
+
+    <section class="videos-section">
+        <div class="video-grid" id="video-grid">
+            
+            <a href="/posts/2023-09-20/" class="video-card-link">
+                <article class="video-card" 
+                         data-tags="v3 cube "
+                         data-author="%E5%B0%8F%E8%83%A1">
+                    <div class="image-poster">
+                        
+                        <img src="https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/be8fdd09ed14591a.jpg" alt="" class="poster-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        
+                        <div class="poster-placeholder" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="video-tags">
+                        
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='\/posts\/?tag=%E5%B0%8F%E8%83%A1';">小胡</span>
+                        
+                        
+                        
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='\/posts\/?tag=v3';">v3</span>
+                        
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='\/posts\/?tag=cube';">cube</span>
+                        
+                        
+                    </div>
+                </article>
+            </a>
+            
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.tag-checkbox');
+    const videoCards = document.querySelectorAll('.video-card-link'); 
+    
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTags = urlParams.getAll('tag');
+    
+    
+    if (urlTags.length > 0) {
+        urlTags.forEach(tag => {
+            const checkbox = Array.from(checkboxes).find(cb => cb.value === tag);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+    }
+    
+    function filterVideos() {
+        const selectedTags = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        videoCards.forEach(cardLink => { 
+            const card = cardLink.querySelector('.video-card'); 
+            if (!card) return;
+
+            if (selectedTags.length === 0) {
+                cardLink.style.display = 'block';
+                return;
+            }
+            
+            const cardTags = (card.getAttribute('data-tags') || '').split(' ').filter(t => t);
+            const cardAuthor = card.getAttribute('data-author') || '';
+            const allCardTags = [...cardTags, cardAuthor].filter(t => t);
+            
+            
+            const hasAllTags = selectedTags.every(selected => 
+                allCardTags.includes(selected)
+            );
+            
+            cardLink.style.display = hasAllTags ? 'block' : 'none';
+        });
+    }
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterVideos);
+    });
+    
+    
+    if (urlTags.length > 0) {
+        filterVideos();
+    }
+});
+</script>
+
+    </main>
+    
+    <footer>
+        
+        <div class="footer-content">
+            © 2024 Dyno Diary. All rights reserved.
+        </div>
+        
+    </footer>
+    
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script>
+        
+        (function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            html.setAttribute('data-theme', currentTheme);
+            
+            
+            function updateButton() {
+                const theme = html.getAttribute('data-theme');
+                if (theme === 'dark') {
+                    document.querySelector('.sun-icon').style.display = 'none';
+                    document.querySelector('.moon-icon').style.display = 'block';
+                } else {
+                    document.querySelector('.sun-icon').style.display = 'block';
+                    document.querySelector('.moon-icon').style.display = 'none';
+                }
+            }
+            
+            
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateButton();
+            });
+            
+            
+            updateButton();
+        })();
+    </script>
+</body>
+</html>
+

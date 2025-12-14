@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cube on Dyno Diary</title>
+    <link>https://requiemsouls.github.io/tags/cube/</link>
+    <description>Recent content in Cube on Dyno Diary</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 20 Sep 2023 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://requiemsouls.github.io/tags/cube/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://requiemsouls.github.io/posts/2023-09-20/</link>
+      <pubDate>Wed, 20 Sep 2023 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/2023-09-20/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline controls data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/be8fdd09ed14591a.jpg&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/videos/be8fdd09ed14591a.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>
