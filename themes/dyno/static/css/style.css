@@ -382,6 +382,13 @@ footer {
     text-underline-offset: 2px;
 }
 
+.content-date {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
 .meta-footer {
     color: #666;
     font-size: 0.9em;
@@ -626,6 +633,11 @@ footer {
 
 [data-theme="dark"] .content a {
     color: #fff;
+}
+
+[data-theme="dark"] .content-date {
+    color: #999;
+    border-top-color: #333;
 }
 
 [data-theme="dark"] .meta-footer {
