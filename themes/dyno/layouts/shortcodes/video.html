@@ -3,7 +3,7 @@
 
 {{ if $url }}
 <div class="video-player-wrapper">
-    <video class="plyr-player" playsinline controls data-poster="{{ $poster }}">
+    <video class="plyr-player" playsinline webkit-playsinline controls preload="metadata" data-poster="{{ $poster }}" crossorigin="anonymous">
         <source src="{{ $url }}" type="video/mp4">
     </video>
 </div>

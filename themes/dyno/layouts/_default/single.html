@@ -29,7 +29,12 @@ document.addEventListener('DOMContentLoaded', function() {
             controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
             settings: ['quality', 'speed'],
             speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
-            keyboard: { focused: true, global: false }
+            keyboard: { focused: true, global: false },
+            fullscreen: {
+                enabled: true,
+                fallback: true,
+                iosNative: true
+            }
         });
     });
 });
