@@ -1,0 +1,135 @@
+{{ define "main" }}
+<div class="list-container">
+    <section class="filter-section">
+        <div class="tags-filter" id="tags-filter">
+            {{ $tagMap := dict }}
+            {{ $authorMap := dict }}
+            {{ $tagCounts := dict }}
+            {{ $authorCounts := dict }}
+            
+            {{ range .Pages }}
+                {{ if .Params.tags }}
+                    {{ range .Params.tags }}
+                        {{ $tagKey := lower . }}
+                        {{ $tagMap = merge $tagMap (dict $tagKey .) }}
+                        {{ $currentCount := index $tagCounts $tagKey | default 0 }}
+                        {{ $tagCounts = merge $tagCounts (dict $tagKey (add $currentCount 1)) }}
+                    {{ end }}
+                {{ end }}
+                {{ if .Params.author }}
+                    {{ $authorKey := lower .Params.author }}
+                    {{ $authorMap = merge $authorMap (dict $authorKey .Params.author) }}
+                    {{ $currentCount := index $authorCounts $authorKey | default 0 }}
+                    {{ $authorCounts = merge $authorCounts (dict $authorKey (add $currentCount 1)) }}
+                {{ end }}
+            {{ end }}
+            
+            {{ range $authorMap }}
+            {{ $authorKey := lower . }}
+            {{ $count := index $authorCounts $authorKey | default 0 }}
+            <label class="tag-filter-item">
+                <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="author">
+                <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
+            </label>
+            {{ end }}
+            
+            {{ range $tagMap }}
+            {{ $tagKey := lower . }}
+            {{ $count := index $tagCounts $tagKey | default 0 }}
+            <label class="tag-filter-item">
+                <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="tag">
+                <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
+            </label>
+            {{ end }}
+        </div>
+    </section>
+
+    <section class="videos-section">
+        <div class="video-grid" id="video-grid">
+            {{ range .Pages }}
+            <a href="{{ .RelPermalink }}" class="video-card-link">
+                <article class="video-card" 
+                         data-tags="{{ if .Params.tags }}{{ range .Params.tags }}{{ . | urlize }} {{ end }}{{ end }}"
+                         data-author="{{ if .Params.author }}{{ .Params.author | urlize }}{{ end }}">
+                    <div class="image-poster">
+                        {{ if .Params.poster_url }}
+                        <img src="{{ .Params.poster_url }}" alt="{{ .Title }}" class="poster-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        {{ end }}
+                        <div class="poster-placeholder" {{ if .Params.poster_url }}style="display: none;"{{ end }}>
+                        </div>
+                    </div>
+                    <div class="video-tags">
+                        {{ if .Params.author }}
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='{{ "/posts/" | relURL }}?tag={{ .Params.author | urlize }}';">{{ .Params.author }}</span>
+                        {{ end }}
+                        {{ if .Params.tags }}
+                        {{ range .Params.tags }}
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='{{ "/posts/" | relURL }}?tag={{ . | urlize }}';">{{ . }}</span>
+                        {{ end }}
+                        {{ end }}
+                    </div>
+                </article>
+            </a>
+            {{ end }}
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const checkboxes = document.querySelectorAll('.tag-checkbox');
+    const videoCards = document.querySelectorAll('.video-card-link'); // Select the link wrapper
+    
+    // Get tags from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTags = urlParams.getAll('tag');
+    
+    // Auto-select tags from URL
+    if (urlTags.length > 0) {
+        urlTags.forEach(tag => {
+            const checkbox = Array.from(checkboxes).find(cb => cb.value === tag);
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+    }
+    
+    function filterVideos() {
+        const selectedTags = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        videoCards.forEach(cardLink => { // Iterate over card links
+            const card = cardLink.querySelector('.video-card'); // Get the actual card inside the link
+            if (!card) return;
+
+            if (selectedTags.length === 0) {
+                cardLink.style.display = 'block';
+                return;
+            }
+            
+            const cardTags = (card.getAttribute('data-tags') || '').split(' ').filter(t => t);
+            const cardAuthor = card.getAttribute('data-author') || '';
+            const allCardTags = [...cardTags, cardAuthor].filter(t => t);
+            
+            // AND relationship: all selected tags must be in the card's tags
+            const hasAllTags = selectedTags.every(selected => 
+                allCardTags.includes(selected)
+            );
+            
+            cardLink.style.display = hasAllTags ? 'block' : 'none';
+        });
+    }
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterVideos);
+    });
+    
+    // Trigger filter on page load if tags are selected
+    if (urlTags.length > 0) {
+        filterVideos();
+    }
+});
+</script>
+{{ end }}
+

@@ -1,0 +1,11 @@
+{{ $url := .Get "url" }}
+{{ $poster := .Get "poster" | default "" }}
+
+{{ if $url }}
+<div class="video-player-wrapper">
+    <video class="plyr-player" playsinline controls data-poster="{{ $poster }}">
+        <source src="{{ $url }}" type="video/mp4">
+    </video>
+</div>
+{{ end }}
+

@@ -1,0 +1,35 @@
+{{ define "main" }}
+<div class="single-container">
+    <article class="video-post">
+        <div class="video-tags-section">
+            {{ if .Params.author }}
+            <a href="{{ "/posts/" | relURL }}?tag={{ .Params.author | urlize }}" class="tag">{{ .Params.author }}</a>
+            {{ end }}
+            {{ if .Params.tags }}
+            {{ range .Params.tags }}
+            <a href="{{ "/posts/" | relURL }}?tag={{ . | urlize }}" class="tag">{{ . }}</a>
+            {{ end }}
+            {{ end }}
+        </div>
+
+        <div class="content">
+            {{ .Content }}
+        </div>
+    </article>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const videoElements = document.querySelectorAll('.plyr-player');
+    videoElements.forEach(function(videoElement) {
+        const player = new Plyr(videoElement, {
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings', 'fullscreen'],
+            settings: ['quality', 'speed'],
+            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
+            keyboard: { focused: true, global: false }
+        });
+    });
+});
+</script>
+{{ end }}
+

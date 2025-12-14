@@ -1,0 +1,9 @@
+baseURL = 'https://requiemsouls.github.io/'
+languageCode = 'en-us'
+title = 'Dyno Diary'
+theme = 'dyno'
+
+[params]
+  description = 'The summit is just a moment, the climb is forever.'
+  establishedYear = '2025'
+  footer = '© 2024 Dyno Diary. All rights reserved.'

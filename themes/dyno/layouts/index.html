@@ -1,0 +1,77 @@
+{{ define "main" }}
+<div class="home-container">
+    <header class="home-header">
+        <h1 class="site-title">{{ .Site.Title }}</h1>
+        {{ if .Site.Params.description }}
+        <p class="site-description">{{ .Site.Params.description }}</p>
+        {{ end }}
+    </header>
+
+    <section class="recent-videos">
+        <div class="video-grid" id="recent-video-grid">
+            {{ $posts := where .Site.RegularPages "Section" "posts" }}
+            {{ range first 4 $posts }}
+            <a href="{{ .RelPermalink }}" class="video-card-link">
+                <article class="video-card">
+                    <div class="image-poster">
+                        {{ if .Params.poster_url }}
+                        <img src="{{ .Params.poster_url }}" alt="{{ .Title }}" class="poster-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        {{ end }}
+                        <div class="poster-placeholder" {{ if .Params.poster_url }}style="display: none;"{{ end }}>
+                        </div>
+                    </div>
+                    <div class="video-tags">
+                        {{ if .Params.author }}
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='{{ "/posts/" | relURL }}?tag={{ .Params.author | urlize }}';">{{ .Params.author }}</span>
+                        {{ end }}
+                        {{ if .Params.tags }}
+                        {{ range .Params.tags }}
+                        <span class="tag" onclick="event.stopPropagation(); window.location.href='{{ "/posts/" | relURL }}?tag={{ . | urlize }}';">{{ . }}</span>
+                        {{ end }}
+                        {{ end }}
+                    </div>
+                </article>
+            </a>
+            {{ end }}
+        </div>
+    </section>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.getElementById('recent-video-grid');
+    const cards = grid.querySelectorAll('.video-card-link'); // Select the link wrapper
+    
+    function adjustGrid() {
+        const width = window.innerWidth;
+        let maxVisible = 4;
+        
+        if (width < 768) {
+            maxVisible = 1;
+        } else if (width < 1024) {
+            maxVisible = 2;
+        } else if (width < 1400) {
+            maxVisible = 3;
+        } else {
+            maxVisible = 4;
+        }
+        
+        cards.forEach((card, index) => {
+            card.style.display = index < maxVisible ? 'block' : 'none';
+        });
+
+        // Center grid if fewer items than maxVisible
+        const visibleCardsCount = Array.from(cards).filter(card => card.style.display !== 'none').length;
+        if (visibleCardsCount > 0 && visibleCardsCount < maxVisible) {
+            grid.style.justifyContent = 'center';
+        } else {
+            grid.style.justifyContent = 'start';
+        }
+    }
+    
+    adjustGrid();
+    window.addEventListener('resize', adjustGrid);
+});
+</script>
+{{ end }}
+
