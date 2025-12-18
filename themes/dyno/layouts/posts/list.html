@@ -1,46 +1,58 @@
 {{ define "main" }}
 <div class="list-container">
     <section class="filter-section">
-        <div class="tags-filter" id="tags-filter">
-            {{ $tagMap := dict }}
-            {{ $authorMap := dict }}
-            {{ $tagCounts := dict }}
-            {{ $authorCounts := dict }}
-            
-            {{ range .Pages }}
-                {{ if .Params.tags }}
-                    {{ range .Params.tags }}
-                        {{ $tagKey := lower . }}
-                        {{ $tagMap = merge $tagMap (dict $tagKey .) }}
-                        {{ $currentCount := index $tagCounts $tagKey | default 0 }}
-                        {{ $tagCounts = merge $tagCounts (dict $tagKey (add $currentCount 1)) }}
+        <div class="filter-row">
+            <div class="tags-filter" id="tags-filter">
+                {{ $tagMap := dict }}
+                {{ $authorMap := dict }}
+                {{ $tagCounts := dict }}
+                {{ $authorCounts := dict }}
+                
+                {{ range .Pages }}
+                    {{ if .Params.tags }}
+                        {{ range .Params.tags }}
+                            {{ $tagKey := lower . }}
+                            {{ $tagMap = merge $tagMap (dict $tagKey .) }}
+                            {{ $currentCount := index $tagCounts $tagKey | default 0 }}
+                            {{ $tagCounts = merge $tagCounts (dict $tagKey (add $currentCount 1)) }}
+                        {{ end }}
+                    {{ end }}
+                    {{ if .Params.author }}
+                        {{ $authorKey := lower .Params.author }}
+                        {{ $authorMap = merge $authorMap (dict $authorKey .Params.author) }}
+                        {{ $currentCount := index $authorCounts $authorKey | default 0 }}
+                        {{ $authorCounts = merge $authorCounts (dict $authorKey (add $currentCount 1)) }}
                     {{ end }}
                 {{ end }}
-                {{ if .Params.author }}
-                    {{ $authorKey := lower .Params.author }}
-                    {{ $authorMap = merge $authorMap (dict $authorKey .Params.author) }}
-                    {{ $currentCount := index $authorCounts $authorKey | default 0 }}
-                    {{ $authorCounts = merge $authorCounts (dict $authorKey (add $currentCount 1)) }}
+                
+                {{ range $authorMap }}
+                {{ $authorKey := lower . }}
+                {{ $count := index $authorCounts $authorKey | default 0 }}
+                <label class="tag-filter-item">
+                    <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="author">
+                    <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
+                </label>
                 {{ end }}
-            {{ end }}
-            
-            {{ range $authorMap }}
-            {{ $authorKey := lower . }}
-            {{ $count := index $authorCounts $authorKey | default 0 }}
-            <label class="tag-filter-item">
-                <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="author">
-                <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
-            </label>
-            {{ end }}
-            
-            {{ range $tagMap }}
-            {{ $tagKey := lower . }}
-            {{ $count := index $tagCounts $tagKey | default 0 }}
-            <label class="tag-filter-item">
-                <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="tag">
-                <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
-            </label>
-            {{ end }}
+                
+                {{ range $tagMap }}
+                {{ $tagKey := lower . }}
+                {{ $count := index $tagCounts $tagKey | default 0 }}
+                <label class="tag-filter-item">
+                    <input type="checkbox" class="tag-checkbox" value="{{ . | urlize }}" data-type="tag">
+                    <span class="tag">{{ . }} <span class="tag-count">({{ $count }})</span></span>
+                </label>
+                {{ end }}
+            </div>
+            <div class="date-filter" id="date-filter">
+                <div class="date-input-group">
+                    <input type="date" id="date-start" class="date-input" placeholder="开始日期">
+                    <span class="date-separator">至</span>
+                    <input type="date" id="date-end" class="date-input" placeholder="结束日期">
+                    <button type="button" class="date-reset-btn" id="date-reset-btn" title="重置日期" disabled>
+                        <span>×</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -50,7 +62,8 @@
             <a href="{{ .RelPermalink }}" class="video-card-link">
                 <article class="video-card" 
                          data-tags="{{ if .Params.tags }}{{ range .Params.tags }}{{ . | urlize }} {{ end }}{{ end }}"
-                         data-author="{{ if .Params.author }}{{ .Params.author | urlize }}{{ end }}">
+                         data-author="{{ if .Params.author }}{{ .Params.author | urlize }}{{ end }}"
+                         data-date="{{ .Date.Format "2006-01-02" }}">
                     <div class="image-poster">
                         {{ if .Params.poster_url }}
                         <img src="{{ .Params.poster_url }}" alt="{{ .Title }}" class="poster-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -78,11 +91,16 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = document.querySelectorAll('.tag-checkbox');
-    const videoCards = document.querySelectorAll('.video-card-link'); // Select the link wrapper
+    const videoCards = document.querySelectorAll('.video-card-link');
+    const dateStartInput = document.getElementById('date-start');
+    const dateEndInput = document.getElementById('date-end');
+    const dateResetBtn = document.getElementById('date-reset-btn');
     
-    // Get tags from URL parameters
+    // Get tags and dates from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const urlTags = urlParams.getAll('tag');
+    const urlDateStart = urlParams.get('dateStart');
+    const urlDateEnd = urlParams.get('dateEnd');
     
     // Auto-select tags from URL
     if (urlTags.length > 0) {
@@ -94,39 +112,140 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Auto-set dates from URL
+    if (urlDateStart) {
+        dateStartInput.value = urlDateStart;
+        updateDateResetButton();
+    }
+    if (urlDateEnd) {
+        dateEndInput.value = urlDateEnd;
+        updateDateResetButton();
+    }
+    
+    function updateDateResetButton() {
+        const hasDateFilter = dateStartInput.value || dateEndInput.value;
+        if (hasDateFilter) {
+            dateResetBtn.disabled = false;
+            dateResetBtn.classList.remove('disabled');
+        } else {
+            dateResetBtn.disabled = true;
+            dateResetBtn.classList.add('disabled');
+        }
+    }
+    
     function filterVideos() {
         const selectedTags = Array.from(checkboxes)
             .filter(cb => cb.checked)
             .map(cb => cb.value);
         
-        videoCards.forEach(cardLink => { // Iterate over card links
-            const card = cardLink.querySelector('.video-card'); // Get the actual card inside the link
+        const startDate = dateStartInput.value;
+        const endDate = dateEndInput.value;
+        
+        videoCards.forEach(cardLink => {
+            const card = cardLink.querySelector('.video-card');
             if (!card) return;
 
-            if (selectedTags.length === 0) {
-                cardLink.style.display = 'block';
-                return;
+            // Check tag filter
+            let passesTagFilter = true;
+            if (selectedTags.length > 0) {
+                const cardTags = (card.getAttribute('data-tags') || '').split(' ').filter(t => t);
+                const cardAuthor = card.getAttribute('data-author') || '';
+                const allCardTags = [...cardTags, cardAuthor].filter(t => t);
+                
+                // AND relationship: all selected tags must be in the card's tags
+                passesTagFilter = selectedTags.every(selected => 
+                    allCardTags.includes(selected)
+                );
             }
             
-            const cardTags = (card.getAttribute('data-tags') || '').split(' ').filter(t => t);
-            const cardAuthor = card.getAttribute('data-author') || '';
-            const allCardTags = [...cardTags, cardAuthor].filter(t => t);
+            // Check date filter
+            let passesDateFilter = true;
+            if (startDate || endDate) {
+                const cardDate = card.getAttribute('data-date');
+                if (cardDate) {
+                    const cardDateObj = new Date(cardDate);
+                    if (startDate) {
+                        const startDateObj = new Date(startDate);
+                        if (cardDateObj < startDateObj) {
+                            passesDateFilter = false;
+                        }
+                    }
+                    if (endDate && passesDateFilter) {
+                        const endDateObj = new Date(endDate);
+                        // Set to end of day for inclusive end date
+                        endDateObj.setHours(23, 59, 59, 999);
+                        if (cardDateObj > endDateObj) {
+                            passesDateFilter = false;
+                        }
+                    }
+                } else {
+                    passesDateFilter = false;
+                }
+            }
             
-            // AND relationship: all selected tags must be in the card's tags
-            const hasAllTags = selectedTags.every(selected => 
-                allCardTags.includes(selected)
-            );
-            
-            cardLink.style.display = hasAllTags ? 'block' : 'none';
+            // AND relationship: both tag and date filters must pass
+            cardLink.style.display = (passesTagFilter && passesDateFilter) ? 'block' : 'none';
         });
     }
     
+    // Tag filter event listeners
     checkboxes.forEach(checkbox => {
         checkbox.addEventListener('change', filterVideos);
     });
     
-    // Trigger filter on page load if tags are selected
-    if (urlTags.length > 0) {
+    // Date filter event listeners
+    dateStartInput.addEventListener('change', function() {
+        updateDateResetButton();
+        filterVideos();
+        updateURL();
+    });
+    
+    dateEndInput.addEventListener('change', function() {
+        updateDateResetButton();
+        filterVideos();
+        updateURL();
+    });
+    
+    // Date reset button
+    dateResetBtn.addEventListener('click', function(e) {
+        if (this.disabled) {
+            e.preventDefault();
+            return;
+        }
+        dateStartInput.value = '';
+        dateEndInput.value = '';
+        updateDateResetButton();
+        filterVideos();
+        updateURL();
+    });
+    
+    // Update URL with current filters
+    function updateURL() {
+        const params = new URLSearchParams();
+        const selectedTags = Array.from(checkboxes)
+            .filter(cb => cb.checked)
+            .map(cb => cb.value);
+        
+        selectedTags.forEach(tag => {
+            params.append('tag', tag);
+        });
+        
+        if (dateStartInput.value) {
+            params.set('dateStart', dateStartInput.value);
+        }
+        if (dateEndInput.value) {
+            params.set('dateEnd', dateEndInput.value);
+        }
+        
+        const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+        window.history.replaceState({}, '', newURL);
+    }
+    
+    // Initialize date reset button state
+    updateDateResetButton();
+    
+    // Trigger filter on page load if filters are set
+    if (urlTags.length > 0 || urlDateStart || urlDateEnd) {
         filterVideos();
     }
 });
