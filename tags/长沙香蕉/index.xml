@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>长沙香蕉 on Dyno Diary</title>
+    <link>https://requiemsouls.github.io/tags/%E9%95%BF%E6%B2%99%E9%A6%99%E8%95%89/</link>
+    <description>Recent content in 长沙香蕉 on Dyno Diary</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 01 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://requiemsouls.github.io/tags/%E9%95%BF%E6%B2%99%E9%A6%99%E8%95%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Line 24</title>
+      <link>https://requiemsouls.github.io/posts/20260101/line24/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/20260101/line24/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline webkit-playsinline x5-video-player-type=&#34;h5&#34; x5-video-player-fullscreen=&#34;true&#34; controls preload=&#34;metadata&#34; data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260101/line24.jpg&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260101/line24.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Line 26</title>
+      <link>https://requiemsouls.github.io/posts/20260101/line26/</link>
+      <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/20260101/line26/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline webkit-playsinline x5-video-player-type=&#34;h5&#34; x5-video-player-fullscreen=&#34;true&#34; controls preload=&#34;metadata&#34; data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260101/line26.jpg&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260101/line26.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>
