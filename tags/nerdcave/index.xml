@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NerdCave on Dyno Diary</title>
+    <link>https://requiemsouls.github.io/tags/nerdcave/</link>
+    <description>Recent content in NerdCave on Dyno Diary</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://requiemsouls.github.io/tags/nerdcave/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>白色</title>
+      <link>https://requiemsouls.github.io/posts/20260426/line100/</link>
+      <pubDate>Sun, 26 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/20260426/line100/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline webkit-playsinline x5-video-player-type=&#34;h5&#34; x5-video-player-fullscreen=&#34;true&#34; controls preload=&#34;metadata&#34; data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260426/line100.jpg&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260426/line100.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>蓝色</title>
+      <link>https://requiemsouls.github.io/posts/20260418/line98/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/20260418/line98/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline webkit-playsinline x5-video-player-type=&#34;h5&#34; x5-video-player-fullscreen=&#34;true&#34; controls preload=&#34;metadata&#34; data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260418/line98.jpg&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260418/line98.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>黄色</title>
+      <link>https://requiemsouls.github.io/posts/20260418/line99/</link>
+      <pubDate>Sat, 18 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://requiemsouls.github.io/posts/20260418/line99/</guid>
+      <description>&lt;div class=&#34;video-player-wrapper&#34;&gt;&#xA;    &lt;video class=&#34;plyr-player&#34; playsinline webkit-playsinline x5-video-player-type=&#34;h5&#34; x5-video-player-fullscreen=&#34;true&#34; controls preload=&#34;metadata&#34; data-poster=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260418/line99.jpg&#34; crossorigin=&#34;anonymous&#34;&gt;&#xA;        &lt;source src=&#34;https://dynodiary-1301215015.cos.ap-guangzhou.myqcloud.com/thumbnails/20260418/line99.mp4&#34; type=&#34;video/mp4&#34;&gt;&#xA;    &lt;/video&gt;&#xA;&lt;/div&gt;</description>
+    </item>
+  </channel>
+</rss>
